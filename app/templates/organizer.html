@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}Organizer Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">
+            Organizer Dashboard
+        </h2>
+
+        <p class="text-muted mb-0">
+            Review and manage CalHacks applications.
+        </p>
+    </div>
+
+    <span class="badge text-bg-dark">
+        {{ applications|length }} applications
+    </span>
+
+</div>
+
+
+<div class="card">
+
+    <div class="card-body p-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover mb-0">
+
+                <thead>
+                    <tr>
+                        <th>Applicant</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Submitted</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for application in applications %}
+
+                    <tr>
+
+                        <td>
+                            {% if application.hacker_application %}
+
+                                {{ application.hacker_application.first_name }}
+                                {{ application.hacker_application.last_name }}
+
+                            {% elif application.volunteer_application %}
+
+                                {{ application.volunteer_application.first_name }}
+                                {{ application.volunteer_application.last_name }}
+
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ application.role|capitalize }}
+                        </td>
+
+                        <td>
+
+                            {% if application.status == "Accepted" %}
+
+                                <span class="badge text-bg-success">
+                                    Accepted
+                                </span>
+
+                            {% elif application.status == "Rejected" %}
+
+                                <span class="badge text-bg-danger">
+                                    Rejected
+                                </span>
+
+                            {% elif application.status == "Waitlisted" %}
+
+                                <span class="badge text-bg-warning">
+                                    Waitlisted
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge text-bg-primary">
+                                    {{ application.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ application.created_at.strftime("%b %d, %Y") }}
+                        </td>
+
+                        <td class="text-end">
+
+                            <a
+                                href="{{ url_for(
+                                    'review_application',
+                                    application_id=application.id
+                                ) }}"
+                                class="btn btn-sm btn-dark"
+                            >
+                                Review
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="5" class="text-center py-5 text-muted">
+                            No applications yet.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,347 @@
+{% extends "base.html" %}
+
+{% block title %}Review Application{% endblock %}
+
+{% block content %}
+
+<a
+    href="{{ url_for('organizer') }}"
+    class="text-decoration-none"
+>
+    ← Back to applications
+</a>
+
+
+<div class="row mt-4">
+
+    <div class="col-lg-7">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <div>
+
+                        {% if application.hacker_application %}
+
+                            <h2 class="fw-bold mb-1">
+                                {{ application.hacker_application.first_name }}
+                                {{ application.hacker_application.last_name }}
+                            </h2>
+
+                            <p class="text-muted">
+                                Hacker applicant
+                            </p>
+
+                        {% elif application.volunteer_application %}
+
+                            <h2 class="fw-bold mb-1">
+                                {{ application.volunteer_application.first_name }}
+                                {{ application.volunteer_application.last_name }}
+                            </h2>
+
+                            <p class="text-muted">
+                                Volunteer applicant
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                    <span class="badge text-bg-primary align-self-start">
+                        {{ application.status }}
+                    </span>
+
+                </div>
+
+
+                <hr>
+
+
+                {% if application.hacker_application %}
+
+                    <h5 class="fw-bold">
+                        Background
+                    </h5>
+
+                    <p>
+                        <strong>School:</strong>
+                        {{ application.hacker_application.school }}
+                    </p>
+
+                    <p>
+                        <strong>Major:</strong>
+                        {{ application.hacker_application.major or "Not provided" }}
+                    </p>
+
+                    <p>
+                        <strong>Graduation year:</strong>
+                        {{ application.hacker_application.graduation_year or "Not provided" }}
+                    </p>
+
+                    <p>
+                        <strong>GitHub:</strong>
+                        {% if application.hacker_application.github %}
+                            <a
+                                href="{{ application.hacker_application.github }}"
+                                target="_blank"
+                            >
+                                View GitHub
+                            </a>
+                        {% else %}
+                            Not provided
+                        {% endif %}
+                    </p>
+
+
+                    <h5 class="fw-bold mt-4">
+                        Technical experience
+                    </h5>
+
+                    <p>
+                        {{ application.hacker_application.experience or "No response." }}
+                    </p>
+
+
+                    <h5 class="fw-bold mt-4">
+                        Why CalHacks?
+                    </h5>
+
+                    <p>
+                        {{ application.hacker_application.why_cal_hacks or "No response." }}
+                    </p>
+
+
+                {% elif application.volunteer_application %}
+
+                    <h5 class="fw-bold">
+                        Availability
+                    </h5>
+
+                    <p>
+                        {{ application.volunteer_application.availability or "No response." }}
+                    </p>
+
+
+                    <h5 class="fw-bold mt-4">
+                        Experience
+                    </h5>
+
+                    <p>
+                        {{ application.volunteer_application.experience or "No response." }}
+                    </p>
+
+
+                    <h5 class="fw-bold mt-4">
+                        Why volunteer?
+                    </h5>
+
+                    <p>
+                        {{ application.volunteer_application.why_volunteer or "No response." }}
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-lg-5 mt-4 mt-lg-0">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h4 class="fw-bold mb-4">
+                    Review
+                </h4>
+
+                <form method="POST">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Technical score
+                        </label>
+
+                        <input
+                            type="number"
+                            name="technical_score"
+                            class="form-control"
+                            min="1"
+                            max="10"
+                            value="{{ review.technical_score or '' }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Creativity score
+                        </label>
+
+                        <input
+                            type="number"
+                            name="creativity_score"
+                            class="form-control"
+                            min="1"
+                            max="10"
+                            value="{{ review.creativity_score or '' }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Communication score
+                        </label>
+
+                        <input
+                            type="number"
+                            name="communication_score"
+                            class="form-control"
+                            min="1"
+                            max="10"
+                            value="{{ review.communication_score or '' }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Recommendation
+                        </label>
+
+                        <select
+                            name="recommendation"
+                            class="form-select"
+                            required
+                        >
+
+                            <option value="">
+                                Select recommendation
+                            </option>
+
+                            <option
+                                value="Strong yes"
+                                {% if review.recommendation == "Strong yes" %}selected{% endif %}
+                            >
+                                Strong yes
+                            </option>
+
+                            <option
+                                value="Yes"
+                                {% if review.recommendation == "Yes" %}selected{% endif %}
+                            >
+                                Yes
+                            </option>
+
+                            <option
+                                value="Maybe"
+                                {% if review.recommendation == "Maybe" %}selected{% endif %}
+                            >
+                                Maybe
+                            </option>
+
+                            <option
+                                value="No"
+                                {% if review.recommendation == "No" %}selected{% endif %}
+                            >
+                                No
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Application status
+                        </label>
+
+                        <select
+                            name="status"
+                            class="form-select"
+                            required
+                        >
+
+                            <option
+                                value="Submitted"
+                                {% if application.status == "Submitted" %}selected{% endif %}
+                            >
+                                Submitted
+                            </option>
+
+                            <option
+                                value="Accepted"
+                                {% if application.status == "Accepted" %}selected{% endif %}
+                            >
+                                Accepted
+                            </option>
+
+                            <option
+                                value="Waitlisted"
+                                {% if application.status == "Waitlisted" %}selected{% endif %}
+                            >
+                                Waitlisted
+                            </option>
+
+                            <option
+                                value="Rejected"
+                                {% if application.status == "Rejected" %}selected{% endif %}
+                            >
+                                Rejected
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Comments
+                        </label>
+
+                        <textarea
+                            name="comments"
+                            class="form-control"
+                            rows="5"
+                            placeholder="Add notes about this applicant..."
+                        >{{ review.comments or "" }}</textarea>
+
+                    </div>
+
+
+                    <button class="btn btn-dark w-100">
+                        Save review
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -18,7 +18,8 @@ from app.models import (
     User,
     Application,
     HackerApplication,
-    VolunteerApplication
+    VolunteerApplication,
+    Review
 )
 
 
@@ -33,6 +34,10 @@ def register_routes(app):
     def home():
         return render_template("index.html")
 
+
+    # -------------------------
+    # AUTHENTICATION
+    # -------------------------
 
     @app.route("/register", methods=["GET", "POST"])
     def register():
@@ -90,6 +95,9 @@ def register_routes(app):
 
                 login_user(user)
 
+                if user.role == "organizer":
+                    return redirect(url_for("organizer"))
+
                 return redirect(url_for("dashboard"))
 
             flash("Invalid email or password.")
@@ -106,9 +114,16 @@ def register_routes(app):
         return redirect(url_for("home"))
 
 
+    # -------------------------
+    # APPLICANT DASHBOARD
+    # -------------------------
+
     @app.route("/dashboard")
     @login_required
     def dashboard():
+
+        if current_user.role == "organizer":
+            return redirect(url_for("organizer"))
 
         return render_template(
             "dashboard.html",
@@ -116,9 +131,16 @@ def register_routes(app):
         )
 
 
+    # -------------------------
+    # APPLICATION
+    # -------------------------
+
     @app.route("/application", methods=["GET", "POST"])
     @login_required
     def application():
+
+        if current_user.role == "organizer":
+            return redirect(url_for("organizer"))
 
         existing = current_user.application
 
@@ -181,4 +203,92 @@ def register_routes(app):
         return render_template(
             "application.html",
             application=existing
+        )
+
+
+    # -------------------------
+    # ORGANIZER DASHBOARD
+    # -------------------------
+
+    @app.route("/organizer")
+    @login_required
+    def organizer():
+
+        if current_user.role != "organizer":
+            flash("Organizer access required.")
+            return redirect(url_for("dashboard"))
+
+        applications = Application.query.order_by(
+            Application.created_at.desc()
+        ).all()
+
+        return render_template(
+            "organizer.html",
+            applications=applications
+        )
+
+
+    # -------------------------
+    # REVIEW APPLICATION
+    # -------------------------
+
+    @app.route("/organizer/application/<int:application_id>", methods=["GET", "POST"])
+    @login_required
+    def review_application(application_id):
+
+        if current_user.role != "organizer":
+            flash("Organizer access required.")
+            return redirect(url_for("dashboard"))
+
+        application = db.session.get(Application, application_id)
+
+        if not application:
+            flash("Application not found.")
+            return redirect(url_for("organizer"))
+
+        review = Review.query.filter_by(
+            application_id=application.id,
+            organizer_id=current_user.id
+        ).first()
+
+        if not review:
+            review = Review(
+                application_id=application.id,
+                organizer_id=current_user.id
+            )
+            db.session.add(review)
+
+        if request.method == "POST":
+
+            review.technical_score = int(
+                request.form["technical_score"]
+            )
+
+            review.creativity_score = int(
+                request.form["creativity_score"]
+            )
+
+            review.communication_score = int(
+                request.form["communication_score"]
+            )
+
+            review.comments = request.form["comments"]
+
+            review.recommendation = request.form["recommendation"]
+
+            application.status = request.form["status"]
+
+            db.session.commit()
+
+            flash("Review saved successfully.")
+
+            return redirect(url_for(
+                "review_application",
+                application_id=application.id
+            ))
+
+        return render_template(
+            "review.html",
+            application=application,
+            review=review
         )
