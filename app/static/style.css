@@ -682,495 +682,142 @@ h6 {
 }
 
 /* =================================
-   VIDEO GAME PATH SECTION
+   APPLICATION COUNTDOWN
 ================================= */
 
-.game-section {
+.countdown-section {
     position: relative;
     background: #f8fffe;
     padding: 120px 30px 150px;
     overflow: hidden;
 }
 
-.game-container {
-    max-width: 1200px;
+.countdown-container {
+    max-width: 1100px;
     margin: 0 auto;
-}
-
-.game-header {
     text-align: center;
-    position: relative;
-    z-index: 5;
 }
 
-.game-header .section-eyebrow {
+.countdown-header .section-eyebrow {
     color: #003262;
 }
 
-.game-header h2 {
+.countdown-header h2 {
     font-size: clamp(3rem, 7vw, 6rem);
     line-height: 0.9;
     letter-spacing: -4px;
     margin: 15px 0 25px;
 }
 
-.game-header p {
+.countdown-header p {
     max-width: 500px;
     margin: 0 auto;
     color: #64748b;
     font-size: 1.05rem;
 }
 
+.countdown-clock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin: 70px auto 40px;
+    flex-wrap: wrap;
+}
 
-/* =================================
-   GAME MAP
-================================= */
-
-.game-map {
-    position: relative;
-
-    height: 570px;
-
-    margin-top: 70px;
-
-    border-radius: 35px;
-
+.countdown-unit {
+    min-width: 140px;
+    padding: 28px 18px 22px;
+    border-radius: 24px;
     background:
-        radial-gradient(
-            circle at 50% 50%,
-            rgba(142, 232, 226, 0.3),
-            transparent 35%
-        ),
         linear-gradient(
             145deg,
             #e4faf7,
             #d4f4f5
         );
-
     border: 1px solid rgba(0, 50, 98, 0.08);
-
-    overflow: hidden;
 }
 
-
-/* subtle grid like a game map */
-
-.game-map::before {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    background-image:
-        linear-gradient(
-            rgba(0, 50, 98, 0.045) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(0, 50, 98, 0.045) 1px,
-            transparent 1px
-        );
-
-    background-size: 40px 40px;
-
-    mask-image: linear-gradient(
-        to bottom,
-        transparent,
-        black 20%,
-        black 80%,
-        transparent
-    );
-}
-
-
-/* =================================
-   START POINT
-================================= */
-
-.start-point {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    z-index: 5;
-
-    text-align: center;
-}
-
-.start-point span {
+.countdown-value {
     display: block;
-
-    margin-top: 8px;
-
-    font-size: 0.65rem;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(2.6rem, 6vw, 4.4rem);
     font-weight: 700;
-
-    letter-spacing: 2px;
-
-    color: #64748b;
+    line-height: 1;
+    letter-spacing: -3px;
+    color: #003262;
 }
 
-.player {
-    width: 62px;
-    height: 62px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: #0a0a0a;
-
-    color: #fdb515;
-
-    font-size: 1.5rem;
-
-    box-shadow:
-        0 0 0 8px rgba(10, 10, 10, 0.06),
-        0 10px 25px rgba(0, 0, 0, 0.15);
-
-    transition: all 0.5s ease;
-}
-
-
-/* =================================
-   BRANCHING ROADS
-================================= */
-
-.branch {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    width: 330px;
-    height: 90px;
-
-    border-top: 4px solid rgba(0, 50, 98, 0.18);
-
-    transform-origin: left center;
-
-    transition:
-        border-color 0.4s ease,
-        filter 0.4s ease;
-}
-
-.branch-left {
-    transform: translateY(-50%) rotate(200deg);
-}
-
-.branch-right {
-    transform: translateY(-50%) rotate(-20deg);
-}
-
-
-/* glowing inner road */
-
-.branch::after {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    top: -2px;
-
-    width: 100%;
-    height: 4px;
-
-    background: transparent;
-
-    box-shadow: none;
-
-    transition: all 0.4s ease;
-}
-
-
-/* =================================
-   PATH OPTIONS
-================================= */
-
-.path-option {
-    position: absolute;
-
-    display: flex;
-    align-items: center;
-    gap: 20px;
-
-    width: 320px;
-
-    padding: 20px;
-
-    text-decoration: none;
-
-    color: #0a0a0a;
-
-    border-radius: 20px;
-
-    background: rgba(255, 255, 255, 0.65);
-
-    border: 1px solid rgba(0, 50, 98, 0.1);
-
-    backdrop-filter: blur(8px);
-
-    transition:
-        transform 0.4s ease,
-        box-shadow 0.4s ease,
-        background 0.4s ease,
-        opacity 0.4s ease;
-
-    z-index: 6;
-}
-
-.path-option.hacker {
-    left: 7%;
-    top: 18%;
-}
-
-.path-option.volunteer {
-    right: 7%;
-    bottom: 18%;
-}
-
-
-/* destination circle */
-
-.destination {
-    flex-shrink: 0;
-
-    width: 70px;
-    height: 70px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    font-size: 1.8rem;
-
-    transition:
-        transform 0.4s ease,
-        box-shadow 0.4s ease;
-}
-
-.hacker .destination {
-    background: #003262;
-    color: #fdb515;
-}
-
-.volunteer .destination {
-    background: #fdb515;
-    color: #0a0a0a;
-}
-
-
-/* path text */
-
-.path-number {
-    font-size: 0.65rem;
-
-    font-weight: 700;
-
-    letter-spacing: 1.5px;
-
-    color: #64748b;
-}
-
-.path-info h3 {
-    margin: 3px 0;
-
-    font-size: 1.7rem;
-
-    letter-spacing: -1px;
-}
-
-.path-info p {
-    margin: 0 0 8px;
-
-    font-size: 0.85rem;
-
-    color: #64748b;
-}
-
-.enter-path {
+.countdown-label {
+    display: block;
+    margin-top: 10px;
     font-size: 0.7rem;
-
     font-weight: 700;
-
-    letter-spacing: 0.8px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #64748b;
 }
 
-
-/* =================================
-   HOVER GAME EFFECTS
-================================= */
-
-.path-option:hover {
-    transform: translateY(-10px) scale(1.03);
-
-    background: white;
-
-    box-shadow:
-        0 20px 45px rgba(0, 50, 98, 0.15);
+.countdown-separator {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #003262;
+    margin-top: -18px;
 }
 
-.path-option:hover .destination {
-    transform: scale(1.15) rotate(8deg);
-
-    box-shadow:
-        0 0 0 10px rgba(255, 255, 255, 0.5),
-        0 10px 25px rgba(0, 50, 98, 0.15);
+.countdown-closed {
+    margin: 0 0 28px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.3rem;
+    color: #003262;
 }
 
-
-/* when either path is hovered, dim the other */
-
-.game-map:has(.hacker:hover) .volunteer {
-    opacity: 0.45;
-}
-
-.game-map:has(.volunteer:hover) .hacker {
-    opacity: 0.45;
-}
-
-
-/* light up road */
-
-.game-map:has(.hacker:hover) .branch-left {
-    border-color: #003262;
-
-    filter:
-        drop-shadow(0 0 7px rgba(0, 50, 98, 0.5));
-}
-
-.game-map:has(.volunteer:hover) .branch-right {
-    border-color: #fdb515;
-
-    filter:
-        drop-shadow(0 0 7px rgba(253, 181, 21, 0.6));
-}
-
-
-/* move player toward selected path */
-
-.game-map:has(.hacker:hover) .player {
-    transform: translate(-140px, -80px);
-
+.countdown-apply {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     background: #003262;
-
-    box-shadow:
-        0 0 0 8px rgba(0, 50, 98, 0.12),
-        0 0 25px rgba(0, 50, 98, 0.5);
+    color: white;
+    border-radius: 40px;
+    padding: 14px 28px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.25s ease;
 }
 
-.game-map:has(.volunteer:hover) .player {
-    transform: translate(140px, 80px);
-
-    background: #fdb515;
-
+.countdown-apply:hover {
     color: #0a0a0a;
-
-    box-shadow:
-        0 0 0 8px rgba(253, 181, 21, 0.15),
-        0 0 25px rgba(253, 181, 21, 0.6);
+    background: #fdb515;
+    transform: translateY(-4px);
 }
 
-
-/* =================================
-   MAP DECORATIONS
-================================= */
-
-.map-star {
-    position: absolute;
-
-    color: rgba(0, 50, 98, 0.3);
-
-    animation: mapStarFloat 4s ease-in-out infinite;
+.countdown-apply::after {
+    content: "↗";
+    font-size: 1.1rem;
 }
-
-.star-a {
-    top: 18%;
-    left: 45%;
-}
-
-.star-b {
-    bottom: 20%;
-    left: 25%;
-
-    animation-delay: 1s;
-}
-
-.star-c {
-    top: 28%;
-    right: 30%;
-
-    animation-delay: 2s;
-}
-
-
-@keyframes mapStarFloat {
-
-    0%,
-    100% {
-        transform: translateY(0);
-        opacity: 0.4;
-    }
-
-    50% {
-        transform: translateY(-8px);
-        opacity: 1;
-    }
-}
-
-
-/* =================================
-   MOBILE
-================================= */
 
 @media (max-width: 800px) {
-
-    .game-section {
+    .countdown-section {
         padding: 90px 20px;
     }
 
-    .game-header h2 {
+    .countdown-header h2 {
         letter-spacing: -2px;
     }
 
-    .game-map {
-        height: 650px;
+    .countdown-clock {
         margin-top: 50px;
+        gap: 10px;
     }
 
-    .path-option {
-        width: calc(100% - 40px);
+    .countdown-unit {
+        min-width: calc(50% - 20px);
+        flex: 1 1 140px;
     }
 
-    .path-option.hacker {
-        left: 20px;
-        top: 10%;
-    }
-
-    .path-option.volunteer {
-        right: 20px;
-        bottom: 10%;
-    }
-
-    .branch {
-        width: 220px;
-    }
-
-    .game-map:has(.hacker:hover) .player {
-        transform: translate(-90px, -100px);
-    }
-
-    .game-map:has(.volunteer:hover) .player {
-        transform: translate(90px, 100px);
+    .countdown-separator {
+        display: none;
     }
 }
