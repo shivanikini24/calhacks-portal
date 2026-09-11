@@ -218,16 +218,50 @@ def register_routes(app):
             flash("Organizer access required.")
             return redirect(url_for("dashboard"))
 
-        applications = Application.query.order_by(
+        status_filter = request.args.get("status", "All")
+        role_filter = request.args.get("role", "All")
+
+        query = Application.query
+
+        if status_filter != "All":
+            query = query.filter_by(status=status_filter)
+
+        if role_filter != "All":
+            query = query.filter_by(role=role_filter)
+
+        applications = query.order_by(
             Application.created_at.desc()
         ).all()
 
+        all_applications = Application.query.all()
+
+        stats = {
+            "total": len(all_applications),
+            "submitted": sum(
+                a.status == "Submitted"
+                for a in all_applications
+            ),
+            "accepted": sum(
+                a.status == "Accepted"
+                for a in all_applications
+            ),
+            "waitlisted": sum(
+                a.status == "Waitlisted"
+                for a in all_applications
+            ),
+            "rejected": sum(
+                a.status == "Rejected"
+                for a in all_applications
+            )
+        }
+
         return render_template(
             "organizer.html",
-            applications=applications
+            applications=applications,
+            stats=stats,
+            status_filter=status_filter,
+            role_filter=role_filter
         )
-
-
     # -------------------------
     # REVIEW APPLICATION
     # -------------------------

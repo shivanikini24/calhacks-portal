@@ -4,20 +4,206 @@
 
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center mb-4">
+<div class="mb-4">
 
-    <div>
-        <h2 class="fw-bold mb-1">
-            Organizer Dashboard
-        </h2>
+    <h2 class="fw-bold mb-1">
+        Organizer Dashboard
+    </h2>
 
-        <p class="text-muted mb-0">
-            Review and manage CalHacks applications.
-        </p>
+    <p class="text-muted mb-0">
+        Review and manage CalHacks applications.
+    </p>
+
+</div>
+
+
+<!-- Statistics -->
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-4 col-lg">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Total</p>
+                <h3 class="fw-bold mb-0">
+                    {{ stats.total }}
+                </h3>
+            </div>
+        </div>
     </div>
 
-    <span class="badge text-bg-dark">
-        {{ applications|length }} applications
+
+    <div class="col-md-4 col-lg">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Submitted</p>
+                <h3 class="fw-bold mb-0">
+                    {{ stats.submitted }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-4 col-lg">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Accepted</p>
+                <h3 class="fw-bold mb-0">
+                    {{ stats.accepted }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-4 col-lg">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Waitlisted</p>
+                <h3 class="fw-bold mb-0">
+                    {{ stats.waitlisted }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-4 col-lg">
+        <div class="card h-100">
+            <div class="card-body">
+                <p class="text-muted mb-1">Rejected</p>
+                <h3 class="fw-bold mb-0">
+                    {{ stats.rejected }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Filters -->
+
+<div class="card mb-4">
+
+    <div class="card-body">
+
+        <form method="GET" class="row g-3 align-items-end">
+
+            <div class="col-md-5">
+
+                <label class="form-label fw-semibold">
+                    Status
+                </label>
+
+                <select
+                    name="status"
+                    class="form-select"
+                >
+
+                    <option
+                        value="All"
+                        {% if status_filter == "All" %}selected{% endif %}
+                    >
+                        All statuses
+                    </option>
+
+                    <option
+                        value="Submitted"
+                        {% if status_filter == "Submitted" %}selected{% endif %}
+                    >
+                        Submitted
+                    </option>
+
+                    <option
+                        value="Accepted"
+                        {% if status_filter == "Accepted" %}selected{% endif %}
+                    >
+                        Accepted
+                    </option>
+
+                    <option
+                        value="Waitlisted"
+                        {% if status_filter == "Waitlisted" %}selected{% endif %}
+                    >
+                        Waitlisted
+                    </option>
+
+                    <option
+                        value="Rejected"
+                        {% if status_filter == "Rejected" %}selected{% endif %}
+                    >
+                        Rejected
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="col-md-5">
+
+                <label class="form-label fw-semibold">
+                    Role
+                </label>
+
+                <select
+                    name="role"
+                    class="form-select"
+                >
+
+                    <option
+                        value="All"
+                        {% if role_filter == "All" %}selected{% endif %}
+                    >
+                        All roles
+                    </option>
+
+                    <option
+                        value="hacker"
+                        {% if role_filter == "hacker" %}selected{% endif %}
+                    >
+                        Hacker
+                    </option>
+
+                    <option
+                        value="volunteer"
+                        {% if role_filter == "volunteer" %}selected{% endif %}
+                    >
+                        Volunteer
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="col-md-2">
+
+                <button class="btn btn-dark w-100">
+                    Filter
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- Applications -->
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h4 class="fw-bold mb-0">
+        Applications
+    </h4>
+
+    <span class="text-muted">
+        {{ applications|length }} shown
     </span>
 
 </div>
@@ -32,6 +218,7 @@
             <table class="table table-hover mb-0">
 
                 <thead>
+
                     <tr>
                         <th>Applicant</th>
                         <th>Role</th>
@@ -39,7 +226,9 @@
                         <th>Submitted</th>
                         <th></th>
                     </tr>
+
                 </thead>
+
 
                 <tbody>
 
@@ -48,6 +237,7 @@
                     <tr>
 
                         <td>
+
                             {% if application.hacker_application %}
 
                                 {{ application.hacker_application.first_name }}
@@ -59,11 +249,14 @@
                                 {{ application.volunteer_application.last_name }}
 
                             {% endif %}
+
                         </td>
+
 
                         <td>
                             {{ application.role|capitalize }}
                         </td>
+
 
                         <td>
 
@@ -88,16 +281,18 @@
                             {% else %}
 
                                 <span class="badge text-bg-primary">
-                                    {{ application.status }}
+                                    Submitted
                                 </span>
 
                             {% endif %}
 
                         </td>
 
+
                         <td>
                             {{ application.created_at.strftime("%b %d, %Y") }}
                         </td>
+
 
                         <td class="text-end">
 
@@ -115,12 +310,18 @@
 
                     </tr>
 
+
                     {% else %}
 
                     <tr>
-                        <td colspan="5" class="text-center py-5 text-muted">
-                            No applications yet.
+
+                        <td
+                            colspan="5"
+                            class="text-center py-5 text-muted"
+                        >
+                            No applications match these filters.
                         </td>
+
                     </tr>
 
                     {% endfor %}
