@@ -1,0 +1,31 @@
+body {
+    background: #f8f9fa;
+    color: #111;
+}
+
+.navbar {
+    background: white;
+}
+
+.card {
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.btn {
+    border-radius: 8px;
+}
+
+.alert {
+    border-radius: 8px;
+}
+
+.display-4 {
+    letter-spacing: -1px;
+}

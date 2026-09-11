@@ -26,6 +26,7 @@
             <input
                 name="first_name"
                 class="form-control"
+                value="{{ application.hacker_application.first_name if application and application.hacker_application else '' }}"
                 required
             >
 
