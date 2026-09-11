@@ -22,6 +22,9 @@ from app.models import (
     Review
 )
 
+from dotenv import load_dotenv
+
+load_dotenv()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -33,6 +36,42 @@ def register_routes(app):
     @app.route("/")
     def home():
         return render_template("index.html")
+
+    @app.route(
+        "/organizer/add-reviewer",
+        methods=["POST"]
+    )
+    @login_required
+    def add_reviewer():
+
+        if current_user.role != "organizer":
+            flash("Only organizers can add reviewers.")
+            return redirect(url_for("organizer"))
+
+        email = request.form["email"].strip().lower()
+        password = request.form["password"]
+
+        existing_user = User.query.filter_by(
+            email=email
+        ).first()
+
+        if existing_user:
+            flash("A user with that email already exists.")
+            return redirect(url_for("organizer"))
+
+        reviewer = User(
+            email=email,
+            role="reviewer"
+        )
+
+        reviewer.set_password(password)
+
+        db.session.add(reviewer)
+        db.session.commit()
+
+        flash("Reviewer added successfully.")
+
+        return redirect(url_for("organizer"))
 
 
     # -------------------------
@@ -75,6 +114,8 @@ def register_routes(app):
 
             return redirect(url_for("application"))
 
+        
+
         return render_template("register.html")
 
 
@@ -96,6 +137,9 @@ def register_routes(app):
                 login_user(user)
 
                 if user.role == "organizer":
+                    return redirect(url_for("organizer"))
+
+                if user.role == "reviewer":
                     return redirect(url_for("organizer"))
 
                 return redirect(url_for("dashboard"))
@@ -123,6 +167,9 @@ def register_routes(app):
     def dashboard():
 
         if current_user.role == "organizer":
+            return redirect(url_for("organizer"))
+
+        if current_user.role == "reviewer":
             return redirect(url_for("organizer"))
 
         return render_template(
@@ -211,8 +258,8 @@ def register_routes(app):
             return redirect(url_for("dashboard"))
 
         return render_template(
-            "register.html",
-            default_role=default_role
+            "application.html",
+            application=existing
         )
 
 
@@ -231,6 +278,55 @@ def register_routes(app):
         status_filter = request.args.get("status", "All")
         role_filter = request.args.get("role", "All")
 
+        # Get all applications for statistics
+        all_applications = Application.query.all()
+
+        total = len(all_applications)
+
+        # An application is considered reviewed once
+        # the organizer changes its status from Submitted
+        # to Accepted, Waitlisted, or Rejected.
+        reviewed = sum(
+            application.status in ["Accepted", "Waitlisted", "Rejected"]
+            for application in all_applications
+        )
+
+        remaining = total - reviewed
+
+        if total > 0:
+            review_percentage = round((reviewed / total) * 100)
+        else:
+            review_percentage = 0
+
+        stats = {
+            "total": total,
+
+            "submitted": sum(
+                application.status == "Submitted"
+                for application in all_applications
+            ),
+
+            "accepted": sum(
+                application.status == "Accepted"
+                for application in all_applications
+            ),
+
+            "waitlisted": sum(
+                application.status == "Waitlisted"
+                for application in all_applications
+            ),
+
+            "rejected": sum(
+                application.status == "Rejected"
+                for application in all_applications
+            ),
+
+            "reviewed": reviewed,
+            "remaining": remaining,
+            "review_percentage": review_percentage
+        }
+
+        # Apply filters to the application table
         query = Application.query
 
         if status_filter != "All":
@@ -242,28 +338,6 @@ def register_routes(app):
         applications = query.order_by(
             Application.created_at.desc()
         ).all()
-
-        all_applications = Application.query.all()
-
-        stats = {
-            "total": len(all_applications),
-            "submitted": sum(
-                a.status == "Submitted"
-                for a in all_applications
-            ),
-            "accepted": sum(
-                a.status == "Accepted"
-                for a in all_applications
-            ),
-            "waitlisted": sum(
-                a.status == "Waitlisted"
-                for a in all_applications
-            ),
-            "rejected": sum(
-                a.status == "Rejected"
-                for a in all_applications
-            )
-        }
 
         return render_template(
             "organizer.html",

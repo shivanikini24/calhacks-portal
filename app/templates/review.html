@@ -335,7 +335,23 @@
                     </button>
 
                 </form>
+                {% if application.ai_summary %}
 
+                    <div class="mt-4 p-3 bg-light rounded">
+
+                        <h5 class="fw-bold mb-3">
+                            AI Summary
+                        </h5>
+
+                        <div class="small">
+
+                            {{ application.ai_summary | replace("\n", "<br>") | safe }}
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
             </div>
 
         </div>

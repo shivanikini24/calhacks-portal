@@ -81,7 +81,163 @@
     </div>
 
 </div>
+<div class="card mb-4">
+    <div class="card-body">
 
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+                <h5 class="fw-bold mb-1">
+                    Review progress
+                </h5>
+
+                <p class="text-muted mb-0">
+                    {{ stats.remaining }} application{{ "s" if stats.remaining != 1 else "" }}
+                    still need{{ "" if stats.remaining == 1 else "" }} review
+                </p>
+            </div>
+
+            <span class="fw-bold">
+                {{ stats.review_percentage }}%
+            </span>
+        </div>
+
+        <div
+            class="progress"
+            role="progressbar"
+            aria-label="Application review progress"
+            aria-valuenow="{{ stats.review_percentage }}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="height: 12px;"
+        >
+            <div
+                class="progress-bar bg-dark"
+                role="progressbar"
+                aria-valuenow="{{ stats.review_percentage }}"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="width: {{ stats.review_percentage | int }}%;"
+            ></div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-2">
+            <small class="text-muted">
+                {{ stats.reviewed }} reviewed
+            </small>
+
+            <small class="text-muted">
+                {{ stats.total }} total
+            </small>
+        </div>
+
+    </div>
+</div>
+
+<!--
+<div class="card mb-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-1">
+            Reviewers
+        </h5>
+
+        <p class="text-muted mb-4">
+            Manage reviewer assignments and workloads.
+        </p>
+
+
+        {% if current_user.role == "organizer" %}
+
+            <form
+                method="POST"
+                action="{{ url_for('add_reviewer') }}"
+                class="row g-2 mb-4"
+            >
+
+                <div class="col-md-5">
+
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="Reviewer email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="col-md-5">
+
+                    <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Temporary password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="col-md-2">
+
+                    <button
+                        type="submit"
+                        class="btn btn-dark w-100"
+                    >
+                        Add reviewer
+                    </button>
+
+                </div>
+
+            </form>
+
+        {% endif %}
+
+
+        {% if reviewer_stats %}
+
+            {% for item in reviewer_stats %}
+
+                <div class="d-flex justify-content-between align-items-center border-top py-3">
+
+                    <div>
+
+                        <div class="fw-semibold">
+                            {{ item.reviewer.email }}
+                        </div>
+
+                        <small class="text-muted">
+                            {{ item.reviewed }}
+                            / {{ item.assigned }}
+                            reviewed
+                        </small>
+
+                    </div>
+
+
+                    <span class="badge text-bg-light">
+                        {{ item.assigned }} assigned
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="text-muted mb-0">
+                No reviewers have been added yet.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+-->
 
 <!-- Filters -->
 
@@ -222,9 +378,10 @@
                     <tr>
                         <th>Applicant</th>
                         <th>Role</th>
+                        <th>AI Summary</th>
                         <th>Status</th>
                         <th>Submitted</th>
-                        <th></th>
+                        <th></th>   
                     </tr>
 
                 </thead>
@@ -255,6 +412,29 @@
 
                         <td>
                             {{ application.role|capitalize }}
+                        </td>
+
+                        <td style="max-width: 350px;">
+
+                            {% if application.ai_summary %}
+
+                                <div class="small text-muted">
+
+                                    {{ application.ai_summary
+                                        | replace("\n", "<br>")
+                                        | safe
+                                    }}
+
+                                </div>
+
+                            {% else %}
+
+                                <span class="text-muted small">
+                                    No summary available
+                                </span>
+
+                            {% endif %}
+
                         </td>
 
 

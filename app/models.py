@@ -4,29 +4,56 @@ from app import db
 
 
 class User(UserMixin, db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
 
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(255), nullable=False)
+    email = db.Column(
+        db.String(120),
+        unique=True,
+        nullable=False
+    )
 
-    role = db.Column(db.String(20), nullable=False)
+    password_hash = db.Column(
+        db.String(255),
+        nullable=False
+    )
+
+    role = db.Column(
+        db.String(20),
+        nullable=False
+    )
 
     application = db.relationship(
+            "Application",
+            foreign_keys="Application.user_id",
+            backref="user",
+            uselist=False,
+            cascade="all, delete-orphan"
+        )
+
+    assigned_applications = db.relationship(
         "Application",
-        backref="user",
-        uselist=False,
-        cascade="all, delete-orphan"
+        foreign_keys="Application.reviewer_id",
+        backref="reviewer",
+        lazy=True
     )
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        return check_password_hash(
+            self.password_hash,
+            password
+        )
 
 
 class Application(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
     user_id = db.Column(
         db.Integer,
@@ -34,12 +61,26 @@ class Application(db.Model):
         nullable=False
     )
 
-    role = db.Column(db.String(20), nullable=False)
+    reviewer_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id"),
+        nullable=True
+    )
+
+    role = db.Column(
+        db.String(20),
+        nullable=False
+    )
 
     status = db.Column(
         db.String(20),
         default="Draft",
         nullable=False
+    )
+
+    ai_summary = db.Column(
+        db.Text,
+        nullable=True
     )
 
     created_at = db.Column(
@@ -75,7 +116,11 @@ class Application(db.Model):
 
 
 class HackerApplication(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
     application_id = db.Column(
         db.Integer,
@@ -83,21 +128,48 @@ class HackerApplication(db.Model):
         nullable=False
     )
 
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
+    first_name = db.Column(
+        db.String(50),
+        nullable=False
+    )
 
-    school = db.Column(db.String(150), nullable=False)
-    major = db.Column(db.String(150))
+    last_name = db.Column(
+        db.String(50),
+        nullable=False
+    )
 
-    graduation_year = db.Column(db.Integer)
+    school = db.Column(
+        db.String(150),
+        nullable=False
+    )
 
-    github = db.Column(db.String(255))
-    experience = db.Column(db.Text)
-    why_cal_hacks = db.Column(db.Text)
+    major = db.Column(
+        db.String(150)
+    )
+
+    graduation_year = db.Column(
+        db.Integer
+    )
+
+    github = db.Column(
+        db.String(255)
+    )
+
+    experience = db.Column(
+        db.Text
+    )
+
+    why_cal_hacks = db.Column(
+        db.Text
+    )
 
 
 class VolunteerApplication(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
     application_id = db.Column(
         db.Integer,
@@ -105,16 +177,35 @@ class VolunteerApplication(db.Model):
         nullable=False
     )
 
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(50), nullable=False)
+    first_name = db.Column(
+        db.String(50),
+        nullable=False
+    )
 
-    availability = db.Column(db.String(255))
-    experience = db.Column(db.Text)
-    why_volunteer = db.Column(db.Text)
+    last_name = db.Column(
+        db.String(50),
+        nullable=False
+    )
+
+    availability = db.Column(
+        db.String(255)
+    )
+
+    experience = db.Column(
+        db.Text
+    )
+
+    why_volunteer = db.Column(
+        db.Text
+    )
 
 
 class Review(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
 
     application_id = db.Column(
         db.Integer,
@@ -128,10 +219,22 @@ class Review(db.Model):
         nullable=False
     )
 
-    technical_score = db.Column(db.Integer)
-    creativity_score = db.Column(db.Integer)
-    communication_score = db.Column(db.Integer)
+    technical_score = db.Column(
+        db.Integer
+    )
 
-    comments = db.Column(db.Text)
+    creativity_score = db.Column(
+        db.Integer
+    )
 
-    recommendation = db.Column(db.String(30))
+    communication_score = db.Column(
+        db.Integer
+    )
+
+    comments = db.Column(
+        db.Text
+    )
+
+    recommendation = db.Column(
+        db.String(30)
+    )
