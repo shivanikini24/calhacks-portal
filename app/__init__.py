@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import os
 
+from gunicorn.config import User
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 
@@ -34,5 +36,19 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+
+        from app.models import User
+        organizer = User.query.filter_by(
+            email="organizer@calhacks.test"
+        ).first()
+
+        if not organizer:
+            organizer = User(
+                email="organizer@calhacks.test",
+                role="organizer"
+            )
+            organizer.set_password("organizer123")
+            db.session.add(organizer)
+            db.session.commit()
 
     return app
