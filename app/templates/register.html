@@ -47,23 +47,39 @@
 
             <div class="mb-4">
 
-                <label class="form-label">
-                    I am applying as...
-                </label>
+                
 
-                <select
-                    name="role"
-                    class="form-select"
-                    required
-                >
+                <div class="mb-4">
 
-                    <option value="hacker">
-                        Hacker
-                    </option>
+                    <label class="form-label">
+                        I am applying as...
+                    </label>
 
-                    <option value="volunteer">
-                        Volunteer
-                    </option>
+                    <select
+                        name="role"
+                        class="form-select"
+                        required
+                    >
+
+                        <option
+                            value="hacker"
+                            {% if default_role == "hacker" %}selected{% endif %}
+                        >
+                            Hacker
+                        </option>
+
+                        <option
+                            value="volunteer"
+                            {% if default_role == "volunteer" %}selected{% endif %}
+                        >
+                            Volunteer
+                        </option>
+
+                    </select>
+
+                </div>
+
+                    
 
                 </select>
 

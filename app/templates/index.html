@@ -1,38 +1,212 @@
 {% extends "base.html" %}
 
-{% block title %}CalHacks Portal{% endblock %}
+{% block title %}Cal Hacks | Application Portal{% endblock %}
 
 {% block content %}
 
-<div class="text-center py-5">
+<section class="hero">
 
-    <h1 class="display-4 fw-bold">
-        Build something extraordinary.
-    </h1>
+    <!-- Decorative elements -->
 
-    <p class="lead mt-3">
-        Apply to CalHacks and join a community of builders,
-        innovators, and hackers.
-    </p>
+    <div class="star one">✦</div>
+    <div class="star two">✦</div>
+    <div class="star three">✦</div>
 
-    <div class="mt-4">
+    <div class="decor-circle"></div>
+    <div class="decor-line"></div>
 
-        <a
-            href="{{ url_for('register') }}"
-            class="btn btn-dark btn-lg me-2"
-        >
-            Start application
-        </a>
 
-        <a
-            href="{{ url_for('login') }}"
-            class="btn btn-outline-dark btn-lg"
-        >
-            Log in
-        </a>
+    <div class="hero-content">
+
+        <!-- Date / location / apply -->
+
+        <div class="hero-info">
+
+            <div class="hero-info-left">
+
+                <div class="hero-detail">
+
+                    <div class="hero-detail-label">
+                        Applications
+                    </div>
+
+                    <div class="hero-detail-value">
+                        Due 9/20/26
+                    </div>
+
+                </div>
+
+
+                <div class="hero-detail">
+
+                    <div class="hero-detail-label">
+                        Location
+                    </div>
+
+                    <div class="hero-detail-value">
+                        Palace of Fine Arts, SF
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('register') }}"
+                class="hero-apply"
+            >
+                Apply Now
+            </a>
+
+        </div>
+
+
+        <!-- Main title -->
+
+        <h1 class="hero-title">
+            CAL HACKS <span class="outline">13.0</span>
+        </h1>
+
+
+        <div class="hero-subtitle">
+
+            Be a Part of the World's Largest Collegiate Hackathon
+
+        </div>
 
     </div>
 
-</div>
+</section>
+
+
+<!-- Application options -->
+
+<section class="game-section">
+
+    <div class="game-container">
+
+        <div class="game-header">
+
+            <div class="section-eyebrow">
+                ✦ Choose your path
+            </div>
+
+            <h2>
+                Your next move<br>
+                is up to you.
+            </h2>
+
+            <p>
+                Every hackathon adventure starts somewhere.
+                Choose your role and begin.
+            </p>
+
+        </div>
+
+
+        <div class="game-map">
+
+            <!-- Decorative stars -->
+
+            <div class="map-star star-a">✦</div>
+            <div class="map-star star-b">✦</div>
+            <div class="map-star star-c">✦</div>
+
+
+            <!-- Starting point -->
+
+            <div class="start-point">
+
+                <div class="player">
+                    ●
+                </div>
+
+                <span>
+                    START
+                </span>
+
+            </div>
+
+
+            <!-- Branching paths -->
+
+            <div class="branch branch-left"></div>
+
+            <div class="branch branch-right"></div>
+
+
+            <!-- Hacker destination -->
+
+            <a
+                href="{{ url_for('register') }}?role=hacker"
+                class="path-option hacker"
+            >
+
+                <div class="destination">
+                    ⚡
+                </div>
+
+                <div class="path-info">
+
+                    <span class="path-number">
+                        PATH 01
+                    </span>
+
+                    <h3>
+                        Hacker
+                    </h3>
+
+                    <p>
+                        Build something unexpected.
+                    </p>
+
+                    <span class="enter-path">
+                        ENTER PATH ↗
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- Volunteer destination -->
+
+            <a
+                href="{{ url_for('register') }}?role=volunteer"
+                class="path-option volunteer"
+            >
+
+                <div class="destination">
+                    ✦
+                </div>
+
+                <div class="path-info">
+
+                    <span class="path-number">
+                        PATH 02
+                    </span>
+
+                    <h3>
+                        Volunteer
+                    </h3>
+
+                    <p>
+                        Help make the impossible happen.
+                    </p>
+
+                    <span class="enter-path">
+                        ENTER PATH ↗
+                    </span>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
 
 {% endblock %}

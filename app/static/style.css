@@ -1,31 +1,1176 @@
-body {
-    background: #f8f9fa;
-    color: #111;
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+/* Make the landing page hero full-width */
+
+main.container:has(.hero) {
+    max-width: none;
+    width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 }
+
+:root {
+    --black: #0a0a0a;
+    --blue: #003262;
+    --cyan: #8ee8e2;
+    --yellow: #fdb515;
+    --background: #eefdfb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: var(--background);
+    color: var(--black);
+    font-family: "DM Sans", sans-serif;
+    overflow-x: hidden;
+}
+
+/* =================================
+   NAVBAR
+================================= */
 
 .navbar {
-    background: white;
+    position: relative;
+    z-index: 20;
+    background: transparent !important;
+    border: none !important;
+    padding: 18px 0;
 }
 
+.navbar-brand {
+    color: var(--black) !important;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1rem;
+    line-height: 1.05;
+    letter-spacing: -0.5px;
+}
+
+.navbar-brand::before {
+    display: none;
+}
+
+.navbar .btn {
+    font-size: 0.8rem;
+    padding: 8px 20px;
+}
+
+.navbar .btn-dark {
+    background: white;
+    color: var(--black);
+    border: none;
+    border-radius: 30px;
+}
+
+.navbar .btn-dark:hover {
+    background: var(--black);
+    color: white;
+}
+
+.navbar .btn-outline-dark {
+    border: none;
+    color: var(--black);
+}
+
+.navbar .btn-outline-dark:hover {
+    background: transparent;
+    color: var(--blue);
+}
+
+/* =================================
+   GENERAL TYPOGRAPHY
+================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Space Grotesk", sans-serif;
+    letter-spacing: -1px;
+}
+
+.btn {
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+/* =================================
+   HERO
+================================= */
+
+.hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    margin-top: -70px;
+    padding: 150px 40px 70px;
+
+    display: flex;
+    align-items: flex-end;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 22% 30%,
+            rgba(255, 255, 255, 0.75),
+            transparent 22%
+        ),
+        radial-gradient(
+            circle at 75% 20%,
+            rgba(118, 225, 235, 0.8),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 45% 80%,
+            rgba(70, 194, 230, 0.6),
+            transparent 32%
+        ),
+        linear-gradient(
+            135deg,
+            #b7f4ed 0%,
+            #7dd9e5 45%,
+            #d5f8f2 100%
+        );
+}
+
+/* subtle moving light */
+
+.hero::before {
+    content: "";
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    top: -180px;
+    right: -100px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    filter: blur(20px);
+
+    animation: floatingLight 9s ease-in-out infinite;
+}
+
+/* abstract circle */
+
+.hero::after {
+    content: "";
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    left: -150px;
+    bottom: -80px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(255, 255, 255, 0.35);
+
+    animation: floatingCircle 8s ease-in-out infinite;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 5;
+
+    width: 100%;
+    max-width: 1400px;
+
+    margin: 0 auto;
+
+    animation: heroEnter 1s ease-out;
+}
+
+/* =================================
+   SMALL HERO INFORMATION
+================================= */
+
+.hero-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-bottom: 55px;
+}
+
+.hero-info-left {
+    display: flex;
+    gap: 70px;
+}
+
+.hero-detail {
+    max-width: 260px;
+}
+
+.hero-detail-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.hero-detail-value {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 1.5rem;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+/* =================================
+   HERO BUTTON
+================================= */
+
+.hero-apply {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    background: white;
+    color: var(--black);
+
+    border: none;
+    border-radius: 40px;
+
+    padding: 14px 25px;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition: all 0.25s ease;
+}
+
+.hero-apply:hover {
+    color: white;
+    background: var(--black);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.hero-apply::after {
+    content: "↗";
+    font-size: 1.1rem;
+}
+
+/* =================================
+   MAIN CAL HACKS TITLE
+================================= */
+
+.hero-title {
+    margin: 0;
+
+    font-family: "Space Grotesk", sans-serif;
+
+    font-size: clamp(4rem, 11vw, 10.5rem);
+
+    font-weight: 600;
+
+    line-height: 0.8;
+
+    letter-spacing: -8px;
+
+    white-space: nowrap;
+}
+
+.hero-title .outline {
+    color: transparent;
+    -webkit-text-stroke: 2px var(--black);
+}
+
+.hero-subtitle {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    margin-top: 35px;
+
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.hero-subtitle::before {
+    content: "✦";
+
+    font-size: 1.5rem;
+
+    animation: starPulse 2s ease-in-out infinite;
+}
+
+/* =================================
+   DECORATIVE ELEMENTS
+================================= */
+
+.star {
+    position: absolute;
+    z-index: 3;
+
+    font-size: 1.4rem;
+
+    animation: starFloat 4s ease-in-out infinite;
+}
+
+.star.one {
+    top: 28%;
+    left: 7%;
+}
+
+.star.two {
+    top: 45%;
+    right: 10%;
+
+    animation-delay: 1s;
+}
+
+.star.three {
+    bottom: 20%;
+    left: 35%;
+
+    animation-delay: 2s;
+}
+
+.decor-circle {
+    position: absolute;
+
+    width: 130px;
+    height: 130px;
+
+    border-radius: 50%;
+
+    border: 2px solid rgba(0, 50, 98, 0.12);
+
+    right: 17%;
+    top: 35%;
+
+    animation: rotateCircle 15s linear infinite;
+}
+
+.decor-line {
+    position: absolute;
+
+    width: 230px;
+    height: 1px;
+
+    background: rgba(0, 0, 0, 0.15);
+
+    transform: rotate(65deg);
+
+    top: 25%;
+    left: 10%;
+}
+
+/* =================================
+   SECOND SECTION
+================================= */
+
+.portal-section {
+    background: #f8fffe;
+
+    padding: 110px 40px;
+
+    position: relative;
+}
+
+.portal-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    margin-bottom: 60px;
+}
+
+.portal-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.portal-card {
+    position: relative;
+
+    min-height: 280px;
+
+    padding: 35px;
+
+    border-radius: 25px;
+
+    text-decoration: none;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.portal-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.portal-card.hacker {
+    background: #003262;
+    color: white;
+}
+
+.portal-card.volunteer {
+    background: #fdb515;
+    color: var(--black);
+}
+
+.portal-card h3 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.portal-card p {
+    max-width: 400px;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+.portal-arrow {
+    position: absolute;
+
+    right: 30px;
+    bottom: 25px;
+
+    font-size: 2rem;
+
+    transition: transform 0.25s ease;
+}
+
+.portal-card:hover .portal-arrow {
+    transform: translate(5px, -5px);
+}
+
+/* =================================
+   FORM / DASHBOARD STYLING
+================================= */
+
 .card {
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
+    border: 1px solid #dcebea;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 5px 25px rgba(0, 50, 98, 0.06);
 }
 
 .form-control,
 .form-select {
-    border-radius: 8px;
-    padding: 10px 12px;
+    border: 1px solid #cbdedc;
+    border-radius: 10px;
+    padding: 11px 13px;
 }
 
-.btn {
-    border-radius: 8px;
+.form-control:focus,
+.form-select:focus {
+    border-color: #4bbfc5;
+    box-shadow: 0 0 0 4px rgba(75, 191, 197, 0.12);
+}
+
+.form-label {
+    font-weight: 600;
+}
+
+.btn-dark {
+    background: var(--black);
+    border-color: var(--black);
+}
+
+.btn-dark:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+}
+
+.btn-outline-dark {
+    border-color: #b7c9c8;
 }
 
 .alert {
-    border-radius: 8px;
+    border-radius: 12px;
 }
 
-.display-4 {
+/* =================================
+   ANIMATIONS
+================================= */
+
+@keyframes heroEnter {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatingLight {
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-80px, 50px);
+    }
+}
+
+@keyframes floatingCircle {
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-25px) rotate(20deg);
+    }
+}
+
+@keyframes starFloat {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1.15);
+    }
+}
+
+@keyframes starPulse {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+}
+
+@keyframes rotateCircle {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 900px) {
+
+    .hero {
+        min-height: 800px;
+        padding: 130px 25px 50px;
+        align-items: flex-end;
+    }
+
+    .hero-info {
+        display: block;
+        margin-bottom: 40px;
+    }
+
+    .hero-info-left {
+        gap: 35px;
+        margin-bottom: 30px;
+    }
+
+    .hero-detail-value {
+        font-size: 1.2rem;
+    }
+
+    .hero-title {
+        font-size: clamp(3.5rem, 15vw, 7rem);
+        letter-spacing: -5px;
+        white-space: normal;
+    }
+
+    .hero-subtitle {
+        margin-top: 25px;
+    }
+
+    .portal-options {
+        grid-template-columns: 1fr;
+    }
+
+    .portal-section {
+        padding: 80px 25px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 15px 10px;
+    }
+
+    .navbar-brand {
+        font-size: 0.85rem;
+    }
+
+    .hero {
+        min-height: 700px;
+        padding: 120px 20px 40px;
+    }
+
+    .hero-info-left {
+        gap: 25px;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        letter-spacing: -3px;
+    }
+
+    .hero-detail-value {
+        font-size: 1rem;
+    }
+
+    .hero-apply {
+        padding: 12px 18px;
+    }
+
+    .portal-card {
+        min-height: 230px;
+        padding: 25px;
+    }
+
+    .portal-card h3 {
+        font-size: 2rem;
+    }
+
+    .decor-circle {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* =================================
+   VIDEO GAME PATH SECTION
+================================= */
+
+.game-section {
+    position: relative;
+    background: #f8fffe;
+    padding: 120px 30px 150px;
+    overflow: hidden;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.game-header {
+    text-align: center;
+    position: relative;
+    z-index: 5;
+}
+
+.game-header .section-eyebrow {
+    color: #003262;
+}
+
+.game-header h2 {
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 0.9;
+    letter-spacing: -4px;
+    margin: 15px 0 25px;
+}
+
+.game-header p {
+    max-width: 500px;
+    margin: 0 auto;
+    color: #64748b;
+    font-size: 1.05rem;
+}
+
+
+/* =================================
+   GAME MAP
+================================= */
+
+.game-map {
+    position: relative;
+
+    height: 570px;
+
+    margin-top: 70px;
+
+    border-radius: 35px;
+
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(142, 232, 226, 0.3),
+            transparent 35%
+        ),
+        linear-gradient(
+            145deg,
+            #e4faf7,
+            #d4f4f5
+        );
+
+    border: 1px solid rgba(0, 50, 98, 0.08);
+
+    overflow: hidden;
+}
+
+
+/* subtle grid like a game map */
+
+.game-map::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 50, 98, 0.045) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0, 50, 98, 0.045) 1px,
+            transparent 1px
+        );
+
+    background-size: 40px 40px;
+
+    mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 20%,
+        black 80%,
+        transparent
+    );
+}
+
+
+/* =================================
+   START POINT
+================================= */
+
+.start-point {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: 5;
+
+    text-align: center;
+}
+
+.start-point span {
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 0.65rem;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    color: #64748b;
+}
+
+.player {
+    width: 62px;
+    height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #0a0a0a;
+
+    color: #fdb515;
+
+    font-size: 1.5rem;
+
+    box-shadow:
+        0 0 0 8px rgba(10, 10, 10, 0.06),
+        0 10px 25px rgba(0, 0, 0, 0.15);
+
+    transition: all 0.5s ease;
+}
+
+
+/* =================================
+   BRANCHING ROADS
+================================= */
+
+.branch {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 330px;
+    height: 90px;
+
+    border-top: 4px solid rgba(0, 50, 98, 0.18);
+
+    transform-origin: left center;
+
+    transition:
+        border-color 0.4s ease,
+        filter 0.4s ease;
+}
+
+.branch-left {
+    transform: translateY(-50%) rotate(200deg);
+}
+
+.branch-right {
+    transform: translateY(-50%) rotate(-20deg);
+}
+
+
+/* glowing inner road */
+
+.branch::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: -2px;
+
+    width: 100%;
+    height: 4px;
+
+    background: transparent;
+
+    box-shadow: none;
+
+    transition: all 0.4s ease;
+}
+
+
+/* =================================
+   PATH OPTIONS
+================================= */
+
+.path-option {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    width: 320px;
+
+    padding: 20px;
+
+    text-decoration: none;
+
+    color: #0a0a0a;
+
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.65);
+
+    border: 1px solid rgba(0, 50, 98, 0.1);
+
+    backdrop-filter: blur(8px);
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        background 0.4s ease,
+        opacity 0.4s ease;
+
+    z-index: 6;
+}
+
+.path-option.hacker {
+    left: 7%;
+    top: 18%;
+}
+
+.path-option.volunteer {
+    right: 7%;
+    bottom: 18%;
+}
+
+
+/* destination circle */
+
+.destination {
+    flex-shrink: 0;
+
+    width: 70px;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 1.8rem;
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+}
+
+.hacker .destination {
+    background: #003262;
+    color: #fdb515;
+}
+
+.volunteer .destination {
+    background: #fdb515;
+    color: #0a0a0a;
+}
+
+
+/* path text */
+
+.path-number {
+    font-size: 0.65rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1.5px;
+
+    color: #64748b;
+}
+
+.path-info h3 {
+    margin: 3px 0;
+
+    font-size: 1.7rem;
+
     letter-spacing: -1px;
+}
+
+.path-info p {
+    margin: 0 0 8px;
+
+    font-size: 0.85rem;
+
+    color: #64748b;
+}
+
+.enter-path {
+    font-size: 0.7rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.8px;
+}
+
+
+/* =================================
+   HOVER GAME EFFECTS
+================================= */
+
+.path-option:hover {
+    transform: translateY(-10px) scale(1.03);
+
+    background: white;
+
+    box-shadow:
+        0 20px 45px rgba(0, 50, 98, 0.15);
+}
+
+.path-option:hover .destination {
+    transform: scale(1.15) rotate(8deg);
+
+    box-shadow:
+        0 0 0 10px rgba(255, 255, 255, 0.5),
+        0 10px 25px rgba(0, 50, 98, 0.15);
+}
+
+
+/* when either path is hovered, dim the other */
+
+.game-map:has(.hacker:hover) .volunteer {
+    opacity: 0.45;
+}
+
+.game-map:has(.volunteer:hover) .hacker {
+    opacity: 0.45;
+}
+
+
+/* light up road */
+
+.game-map:has(.hacker:hover) .branch-left {
+    border-color: #003262;
+
+    filter:
+        drop-shadow(0 0 7px rgba(0, 50, 98, 0.5));
+}
+
+.game-map:has(.volunteer:hover) .branch-right {
+    border-color: #fdb515;
+
+    filter:
+        drop-shadow(0 0 7px rgba(253, 181, 21, 0.6));
+}
+
+
+/* move player toward selected path */
+
+.game-map:has(.hacker:hover) .player {
+    transform: translate(-140px, -80px);
+
+    background: #003262;
+
+    box-shadow:
+        0 0 0 8px rgba(0, 50, 98, 0.12),
+        0 0 25px rgba(0, 50, 98, 0.5);
+}
+
+.game-map:has(.volunteer:hover) .player {
+    transform: translate(140px, 80px);
+
+    background: #fdb515;
+
+    color: #0a0a0a;
+
+    box-shadow:
+        0 0 0 8px rgba(253, 181, 21, 0.15),
+        0 0 25px rgba(253, 181, 21, 0.6);
+}
+
+
+/* =================================
+   MAP DECORATIONS
+================================= */
+
+.map-star {
+    position: absolute;
+
+    color: rgba(0, 50, 98, 0.3);
+
+    animation: mapStarFloat 4s ease-in-out infinite;
+}
+
+.star-a {
+    top: 18%;
+    left: 45%;
+}
+
+.star-b {
+    bottom: 20%;
+    left: 25%;
+
+    animation-delay: 1s;
+}
+
+.star-c {
+    top: 28%;
+    right: 30%;
+
+    animation-delay: 2s;
+}
+
+
+@keyframes mapStarFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+
+    50% {
+        transform: translateY(-8px);
+        opacity: 1;
+    }
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 800px) {
+
+    .game-section {
+        padding: 90px 20px;
+    }
+
+    .game-header h2 {
+        letter-spacing: -2px;
+    }
+
+    .game-map {
+        height: 650px;
+        margin-top: 50px;
+    }
+
+    .path-option {
+        width: calc(100% - 40px);
+    }
+
+    .path-option.hacker {
+        left: 20px;
+        top: 10%;
+    }
+
+    .path-option.volunteer {
+        right: 20px;
+        bottom: 10%;
+    }
+
+    .branch {
+        width: 220px;
+    }
+
+    .game-map:has(.hacker:hover) .player {
+        transform: translate(-90px, -100px);
+    }
+
+    .game-map:has(.volunteer:hover) .player {
+        transform: translate(90px, 100px);
+    }
 }

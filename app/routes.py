@@ -146,7 +146,7 @@ def register_routes(app):
         if current_user.role == "organizer":
             return redirect(url_for("organizer"))
 
-
+        default_role = request.args.get("role", "hacker")
         if request.method == "POST":
 
             if existing:
@@ -155,6 +155,7 @@ def register_routes(app):
                 application = Application(
                     user_id=current_user.id,
                     role=current_user.role
+                    
                 )
 
                 db.session.add(application)
@@ -210,8 +211,8 @@ def register_routes(app):
             return redirect(url_for("dashboard"))
 
         return render_template(
-            "application.html",
-            application=existing
+            "register.html",
+            default_role=default_role
         )
 
 
