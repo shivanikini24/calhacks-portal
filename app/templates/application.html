@@ -1,3 +1,4 @@
+
 {% extends "base.html" %}
 
 {% block title %}Application{% endblock %}
@@ -8,12 +9,24 @@
     {{ current_user.role|capitalize }} Application
 </h2>
 
-<p class="text-muted mb-4">
-    Tell us about yourself.
-</p>
+{% if application and application.status == "Submitted" %}
+
+    <p class="text-muted mb-4">
+        Your application has been submitted and is now locked.
+    </p>
+
+{% else %}
+
+    <p class="text-muted mb-4">
+        Save your progress as a draft and return later.
+    </p>
+
+{% endif %}
 
 
 <form method="POST">
+
+    <!-- First and Last Name -->
 
     <div class="row">
 
@@ -26,7 +39,8 @@
             <input
                 name="first_name"
                 class="form-control"
-                value="{{ application.hacker_application.first_name if application and application.hacker_application else '' }}"
+                value="{% if application and application.hacker_application %}{{ application.hacker_application.first_name }}{% elif application and application.volunteer_application %}{{ application.volunteer_application.first_name }}{% endif %}"
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
                 required
             >
 
@@ -42,6 +56,8 @@
             <input
                 name="last_name"
                 class="form-control"
+                value="{% if application and application.hacker_application %}{{ application.hacker_application.last_name }}{% elif application and application.volunteer_application %}{{ application.volunteer_application.last_name }}{% endif %}"
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
                 required
             >
 
@@ -49,6 +65,8 @@
 
     </div>
 
+
+    <!-- HACKER APPLICATION -->
 
     {% if current_user.role == "hacker" %}
 
@@ -61,6 +79,8 @@
             <input
                 name="school"
                 class="form-control"
+                value="{{ application.hacker_application.school if application and application.hacker_application else '' }}"
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
                 required
             >
 
@@ -76,6 +96,8 @@
             <input
                 name="major"
                 class="form-control"
+                value="{{ application.hacker_application.major if application and application.hacker_application else '' }}"
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
             >
 
         </div>
@@ -91,6 +113,8 @@
                 name="graduation_year"
                 type="number"
                 class="form-control"
+                value="{{ application.hacker_application.graduation_year if application and application.hacker_application else '' }}"
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
             >
 
         </div>
@@ -106,7 +130,9 @@
                 name="github"
                 type="url"
                 class="form-control"
+                value="{{ application.hacker_application.github if application and application.hacker_application else '' }}"
                 placeholder="https://github.com/..."
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
             >
 
         </div>
@@ -122,7 +148,8 @@
                 name="experience"
                 class="form-control"
                 rows="4"
-            ></textarea>
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
+            >{{ application.hacker_application.experience if application and application.hacker_application else '' }}</textarea>
 
         </div>
 
@@ -137,13 +164,15 @@
                 name="why_cal_hacks"
                 class="form-control"
                 rows="5"
-            ></textarea>
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
+            >{{ application.hacker_application.why_cal_hacks if application and application.hacker_application else '' }}</textarea>
 
         </div>
 
 
-    {% else %}
+    <!-- VOLUNTEER APPLICATION -->
 
+    {% elif current_user.role == "volunteer" %}
 
         <div class="mb-3">
 
@@ -154,7 +183,9 @@
             <input
                 name="availability"
                 class="form-control"
+                value="{{ application.volunteer_application.availability if application and application.volunteer_application else '' }}"
                 placeholder="e.g. Friday evening, Saturday morning..."
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
             >
 
         </div>
@@ -170,7 +201,8 @@
                 name="experience"
                 class="form-control"
                 rows="4"
-            ></textarea>
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
+            >{{ application.volunteer_application.experience if application and application.volunteer_application else '' }}</textarea>
 
         </div>
 
@@ -185,17 +217,54 @@
                 name="why_volunteer"
                 class="form-control"
                 rows="5"
-            ></textarea>
+                {% if application and application.status == "Submitted" %}disabled{% endif %}
+            >{{ application.volunteer_application.why_volunteer if application and application.volunteer_application else '' }}</textarea>
 
         </div>
 
     {% endif %}
 
 
-    <button class="btn btn-dark">
-        Submit application
-    </button>
+    <!-- ACTION BUTTONS -->
+
+    {% if not application or application.status != "Submitted" %}
+
+        <div class="d-flex gap-2">
+
+            <button
+                type="submit"
+                name="action"
+                value="draft"
+                class="btn btn-outline-dark"
+            >
+                Save draft
+            </button>
+
+
+            <button
+                type="submit"
+                name="action"
+                value="submit"
+                class="btn btn-dark"
+            >
+                Submit application
+            </button>
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-success mb-0">
+
+            <strong>Application submitted.</strong>
+
+            Your application has been locked and can no longer be edited.
+
+        </div>
+
+    {% endif %}
 
 </form>
 
 {% endblock %}
+

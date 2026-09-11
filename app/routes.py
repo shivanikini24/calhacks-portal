@@ -138,11 +138,14 @@ def register_routes(app):
     @app.route("/application", methods=["GET", "POST"])
     @login_required
     def application():
+        existing = current_user.application
 
+        if existing and existing.status == "Submitted" and request.method == "POST":
+            flash("Your application has already been submitted and cannot be edited.")
+            return redirect(url_for("application"))
         if current_user.role == "organizer":
             return redirect(url_for("organizer"))
 
-        existing = current_user.application
 
         if request.method == "POST":
 
@@ -192,11 +195,17 @@ def register_routes(app):
                 volunteer.experience = request.form["experience"]
                 volunteer.why_volunteer = request.form["why_volunteer"]
 
-            application.status = "Submitted"
+            action = request.form.get("action")
+
+            if action == "submit":
+                application.status = "Submitted"
+                flash("Application submitted successfully!")
+
+            else:
+                application.status = "Draft"
+                flash("Application draft saved.")
 
             db.session.commit()
-
-            flash("Application submitted successfully!")
 
             return redirect(url_for("dashboard"))
 
