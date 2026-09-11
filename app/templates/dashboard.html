@@ -28,7 +28,11 @@
                 </h5>
 
                 <p class="text-muted mb-0">
-                    Application #{{ application.id }}
+                    {% if application.status == "Submitted" %}
+                        Submitted application
+                    {% else %}
+                        Application in progress
+                    {% endif %}
                 </p>
 
             </div>
