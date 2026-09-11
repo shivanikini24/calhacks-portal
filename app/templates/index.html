@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}CalHacks Portal{% endblock %}
+
+{% block content %}
+
+<div class="text-center py-5">
+
+    <h1 class="display-4 fw-bold">
+        Build something extraordinary.
+    </h1>
+
+    <p class="lead mt-3">
+        Apply to CalHacks and join a community of builders,
+        innovators, and hackers.
+    </p>
+
+    <div class="mt-4">
+
+        <a
+            href="{{ url_for('register') }}"
+            class="btn btn-dark btn-lg me-2"
+        >
+            Start application
+        </a>
+
+        <a
+            href="{{ url_for('login') }}"
+            class="btn btn-outline-dark btn-lg"
+        >
+            Log in
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

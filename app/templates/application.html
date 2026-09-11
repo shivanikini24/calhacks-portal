@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Application{% endblock %}
+
+{% block content %}
+
+<h2 class="fw-bold mb-2">
+    {{ current_user.role|capitalize }} Application
+</h2>
+
+<p class="text-muted mb-4">
+    Tell us about yourself.
+</p>
+
+
+<form method="POST">
+
+    <div class="row">
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+                First name
+            </label>
+
+            <input
+                name="first_name"
+                class="form-control"
+                required
+            >
+
+        </div>
+
+
+        <div class="col-md-6 mb-3">
+
+            <label class="form-label">
+                Last name
+            </label>
+
+            <input
+                name="last_name"
+                class="form-control"
+                required
+            >
+
+        </div>
+
+    </div>
+
+
+    {% if current_user.role == "hacker" %}
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                School
+            </label>
+
+            <input
+                name="school"
+                class="form-control"
+                required
+            >
+
+        </div>
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Major
+            </label>
+
+            <input
+                name="major"
+                class="form-control"
+            >
+
+        </div>
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Graduation year
+            </label>
+
+            <input
+                name="graduation_year"
+                type="number"
+                class="form-control"
+            >
+
+        </div>
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                GitHub
+            </label>
+
+            <input
+                name="github"
+                type="url"
+                class="form-control"
+                placeholder="https://github.com/..."
+            >
+
+        </div>
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Technical experience
+            </label>
+
+            <textarea
+                name="experience"
+                class="form-control"
+                rows="4"
+            ></textarea>
+
+        </div>
+
+
+        <div class="mb-4">
+
+            <label class="form-label">
+                Why do you want to attend CalHacks?
+            </label>
+
+            <textarea
+                name="why_cal_hacks"
+                class="form-control"
+                rows="5"
+            ></textarea>
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Availability
+            </label>
+
+            <input
+                name="availability"
+                class="form-control"
+                placeholder="e.g. Friday evening, Saturday morning..."
+            >
+
+        </div>
+
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Relevant experience
+            </label>
+
+            <textarea
+                name="experience"
+                class="form-control"
+                rows="4"
+            ></textarea>
+
+        </div>
+
+
+        <div class="mb-4">
+
+            <label class="form-label">
+                Why do you want to volunteer?
+            </label>
+
+            <textarea
+                name="why_volunteer"
+                class="form-control"
+                rows="5"
+            ></textarea>
+
+        </div>
+
+    {% endif %}
+
+
+    <button class="btn btn-dark">
+        Submit application
+    </button>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h2 class="fw-bold">
+    Welcome back
+</h2>
+
+<p class="text-muted">
+    {{ current_user.email }}
+</p>
+
+
+{% if application %}
+
+<div class="card mt-4">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between">
+
+            <div>
+
+                <h5 class="fw-bold">
+                    Your {{ current_user.role }} application
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Application #{{ application.id }}
+                </p>
+
+            </div>
+
+            <span class="badge text-bg-primary align-self-start">
+                {{ application.status }}
+            </span>
+
+        </div>
+
+        <hr>
+
+        <a
+            href="{{ url_for('application') }}"
+            class="btn btn-dark"
+        >
+            View application
+        </a>
+
+    </div>
+
+</div>
+
+{% else %}
+
+<div class="card mt-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold">
+            Your application hasn't been started.
+        </h5>
+
+        <p class="text-muted">
+            Complete your application to get started.
+        </p>
+
+        <a
+            href="{{ url_for('application') }}"
+            class="btn btn-dark"
+        >
+            Start application
+        </a>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
